@@ -3,6 +3,18 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
 
+//validation for message and board id inputs
+function validateCard(req, res, next) {
+    const { message, boardId } = req.body;
+    if (!message || typeof title !== 'string') {
+        return res.status(400).json({ error: "Card must include a message"});
+    }
+    if (!boardId || isNaN(parseInt(boardId))) {
+        return res.status(400).json({ error: 'Card must have valid boardId'})
+    }
+    next();
+}
+
 // GET all cards for a board
 router.get('/board/:boardId', async (req, res) => {
     const { boardId } = req.params;
@@ -13,7 +25,7 @@ router.get('/board/:boardId', async (req, res) => {
 })
 
 //POST new card
-route.post('/', async (req, res) => {
+router.post('/', validateCard, async (req, res) => {
     const { message, imageUrl, author, boardId } = req.body;
     const newCard = await prisma.card.create({
         date: {
@@ -27,7 +39,7 @@ route.post('/', async (req, res) => {
 });
 
 //PUT update a card
-router.put('/:id', async (req, res) => {
+router.put('/:id',validateCard, async (req, res) => {
     const { id } = req.params;
     const { message, imageUrl, author } = req.body;
     const updatedCard = await prisma.card.update({

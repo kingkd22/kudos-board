@@ -3,7 +3,19 @@ const router = express.Router()
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-//Get all boards
+// validation for title and category inputs
+function validateBoard(req, res, next) {
+    const { title, category } = req.body;
+    if (!title || typeof title !== 'string') {
+        return res.status(400).json({ error: "Board must have valid title"});
+    }
+    if (!category || typeof category !== "string") {
+        return res.status(400).json({ error: 'Board must have a valid category'})
+    }
+    next();
+}
+
+//Get all boards with cards
 router.get('/', async (req, res) => {
     const boards = await prisma.board.findMany({
         include: { cards: true }
@@ -22,7 +34,7 @@ router.get('/:id', async(req, res) => {
 });
 
 //POST create a board
-router.post('/', async(req, res) => {
+router.post('/', validateBoard, async (req, res) => {
     const { title, category, author } = req.body;
     try {
         const newBoard = await prisma.board.create({
@@ -39,7 +51,7 @@ router.post('/', async(req, res) => {
 });
 
 //PUT update board
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateBoard, async (req, res) => {
     const { id } = req.params;
     const { title, category, author } = req.body;
     const updateBoard = await prisma.board.update({
