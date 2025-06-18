@@ -12,3 +12,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Board {
+  id        Int      @id @default(autoincrement())
+  title     String
+  category  String
+  author    String?
+  cards     Card[] 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Card {
+  id        Int      @id @default(autoincrement())
+  message   String
+  imageUrl  String
+  author    String?
+  upvotes   Int      @default(0)
+  pinned    Boolean  @default(false)
+  board     Board    @relation(fields: [boardId], references: [id])
+  boardId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
