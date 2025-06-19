@@ -11,7 +11,7 @@ export const deleteBoard = (id) => API.delete(`/boards/${id}`)
 export const updateBoard = (id, data) => API.put(`/boards/${id}`, data)
 
 //Cards
-export const fetchCardsForBoard = (boardId) => API.get(`/cards/board${boardId}`)
+export const fetchCardsForBoard = (boardId) => API.get(`/cards/board/${boardId}`)
 export const createCard = (data) => API.post('/cards', data)
 
 export default API

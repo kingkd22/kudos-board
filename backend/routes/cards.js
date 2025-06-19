@@ -19,7 +19,7 @@ function validateCard(req, res, next) {
 router.get('/board/:boardId', async (req, res) => {
     const { boardId } = req.params;
     const cards = await prisma.card.findMany({
-        where: { boardId: parseInt(bardId) }
+        where: { boardId: parseInt(boardId) }
     });
     res.json(cards);
 })
