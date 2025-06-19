@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { deleteBoard, fetchBoards } from "../utilities/data";
+import { deleteBoard, fetchBoards, updateBoard } from "../utilities/data";
 import { Link } from 'react-router-dom';
+import "./Dashboard.css"
+import EditBoardModal from "./EditBoardModal";
+
 
 const Dashboard = () => {
     const [boards, setBoards] = useState([]);
     const [filterCategory, setFilterCategory] = useState('All')
+    const [editingBoard, setEditingBoard] = useState(null)
 
     // fetch boards from the backend
     useEffect(() => {
@@ -29,8 +33,18 @@ const Dashboard = () => {
         ? boards
         : boards.filter((b) => b.category === filterCategory);
     
+
+    //Handle edit save
+    const handleSaveEdit = async (id, data) => {
+        const updated = await updateBoard(id, data);
+        setBoards((prev) =>
+            prev.map((b) => (b.id === id ? updated.data : b))
+        );
+    };
+
     return (
         <div className="dashboard-container">
+
             <h2 className="dashboard-Title"> Kudos Boards</h2>
 
             <div className="filter">
@@ -56,13 +70,21 @@ const Dashboard = () => {
                             </Link>
 
                             <div className="board-actions">
-                                <button className="edit" onClick={() => alert('Edit coming soon')}>Edit</button>
+                                <button className="edit" onClick={() => setEditingBoard(board)}>Edit</button>
                                 <button className="delete" onClick={() => handleDelete(board.id)}>Delete</button>
                             </div>
                         </div>
                 ))
             ) : ( <p className="no-results">No Boards Found</p>)}
             </div>
+
+            {editingBoard && (
+                <EditBoardModal
+                    board={editingBoard}
+                    onClose={() => setEditingBoard(null)}
+                    onSave={handleSaveEdit}
+                />
+            )}
         </div>
         
     )
