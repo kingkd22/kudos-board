@@ -1,0 +1,25 @@
+.gif-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin: 1rem 0;
+    max-height: 250px;
+    padding: 0.5rem;
+    overflow-y: auto;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+}
+
+.gif-thumbnail {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: transform 0.2s ease;
+}
+
+.gif-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 5px #00eaff
+}

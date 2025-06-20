@@ -3,6 +3,8 @@
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
+    justify-content: center;
+    width: 100vw;
 }
 
 .card {
@@ -10,7 +12,24 @@
     color: white;
     padding: 1rem;
     border-radius: 10px;
-    width: 180px;
+    width: 220px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(255, 255, 255 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-message {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.card-author {
+    font-size: 0.85rem;
+    color: #bbb;
 }
 
 card-img {
@@ -19,3 +38,8 @@ card-img {
     width: 100%;
 }
 
+.no-cards-msg {
+    color: #ccc;
+    text-align: center;
+    width: 100%
+}

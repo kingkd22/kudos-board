@@ -10,12 +10,12 @@ const CardList = ({ cards }) => {
                         {card.imageUrl && (
                             <img src={card.imageUrl} alt="gif" className="card-img" />
                         )}
-                        <p>{card.message}</p>
+                        <p className="card-message">{card.message}</p>
                         <span className="card-author">- {card.author}</span>
                     </div>
                 ))
             ) : (
-                <p>No cards on this board yet.</p>
+                <p className="no-cards-message">No cards on this board yet.</p>
             )}
         </div>
     )
