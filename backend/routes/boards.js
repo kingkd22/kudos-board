@@ -35,13 +35,14 @@ router.get('/:id', async(req, res) => {
 
 //POST create a board
 router.post('/', validateBoard, async (req, res) => {
-    const { title, category, author } = req.body;
+    const { title, category, imageUrl, author } = req.body;
     try {
         const newBoard = await prisma.board.create({
             data: {
                 title,
                 category,
-                author
+                author,
+                imageUrl
             }
         });
         res.status(201).json(newBoard);
@@ -62,7 +63,7 @@ router.put('/:id', validateBoard, async (req, res) => {
 });
 
 //DELETE board
-router.delete('/.id', async(req, res) => {
+router.delete('/:id', async(req, res) => {
     const { id } = req.params;
     await prisma.board.delete({ where: {id: parseInt(id) } });
 });

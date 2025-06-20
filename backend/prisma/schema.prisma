@@ -17,7 +17,8 @@ model Board {
   id        Int      @id @default(autoincrement())
   title     String
   category  String
-  author    String?
+  author    String?  
+  imageUrl  String  @default("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTg0emFqbHFrY2d4eWppNmQzZmh4dWY2cWF4ZnluMjRoNW9zb3hzNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/htebeL9yH0ZI9K47Jo/giphy.gif")
   cards     Card[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,8 +27,8 @@ model Board {
 model Card {
   id        Int      @id @default(autoincrement())
   message   String
-  author    String
-  imageUrl  String?
+  author    String?
+  imageUrl  String
   upvotes   Int      @default(0)
   pinned    Boolean  @default(false)
   board     Board    @relation(fields: [boardId], references: [id])
