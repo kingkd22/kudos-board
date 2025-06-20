@@ -42,7 +42,7 @@ const Dashboard = (theme) => {
     //Filter boards by category if selected
     const filteredBoards = boards.filter((board)=> {
         const matchesCategory = filterCategory ==="All" || board.category === filterCategory;
-        const matchesSearch = board.title.toLowerCase().includes(searchQuery);
+        const matchesSearch = board.title?.toLowerCase().includes(searchQuery);
         return matchesCategory && matchesSearch
     })
     
