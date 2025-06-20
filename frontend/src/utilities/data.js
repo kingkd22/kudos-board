@@ -1,7 +1,8 @@
 import axios from 'axios'
 
+const backend = import.meta.env.VITE_SERVER_URL
 const API = axios.create({
-    baseURL: 'http://localhost:3000/api'
+    baseURL: backend || 'http://localhost:3000/api'
 });
 
 //Boards
