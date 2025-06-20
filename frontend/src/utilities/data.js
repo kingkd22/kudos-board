@@ -12,6 +12,11 @@ export const updateBoard = (id, data) => API.put(`/boards/${id}`, data)
 
 //Cards
 export const fetchCardsForBoard = (boardId) => API.get(`/cards/board/${boardId}`)
-export const createCard = (data) => API.post('/cards', data)
+export const createCard = async (cardData) => {
+    const res = await API.post('/cards', cardData);
+    return res;
+}
+export const deleteCard = (id) => API.delete(`/cards/${id}`);
+export const upvoteCard = (id) => API.put(`/cards/${id}/upvote`)
 
 export default API

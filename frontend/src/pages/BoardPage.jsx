@@ -53,7 +53,7 @@ const BoardPage = () => {
 
             <button className='create' onClick={() => setShowModal(true)}> Create Card </button>
 
-            <CardList cards={cards} />
+            <CardList cards={cards} setCards={setCards} />
 
             {showModal && (
                 <CardModal
