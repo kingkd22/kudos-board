@@ -41,8 +41,8 @@ router.post('/', validateBoard, async (req, res) => {
             data: {
                 title,
                 category,
+                imageUrl,
                 author,
-                imageUrl
             }
         });
         res.status(201).json(newBoard);

@@ -38,6 +38,22 @@ router.post('/', validateCard, async (req, res) => {
     res.status(201).json(newCard);
 }); 
 
+//Upvote
+router.put('/:id/upvote', async (req, res) => {
+    const id = req.params.id;
+    const idInt = parseInt(id)
+    try {
+        const card = await prisma.card.update({
+            where: { id: idInt },
+            data: { upvotes: { increment: 1}}
+        })
+        res.json(card)
+    }   catch (err) {
+        console.log(err)
+        res.status(400).json({ error: "Upvote failed"})
+    }
+})
+
 //PUT update a card
 router.put('/:id',validateCard, async (req, res) => {
     const { id } = req.params;
@@ -49,6 +65,8 @@ router.put('/:id',validateCard, async (req, res) => {
     res.json(updatedCard)
 })
 
+
+//Delete
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await prisma.card.delete({ where: { id: parseInt(id) } });
