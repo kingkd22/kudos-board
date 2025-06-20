@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import "./BoardPage.css"
 
 
-const BoardPage = () => {
+const BoardPage = (theme) => {
 
     const { id } = useParams();
     const [board, setBoard] = useState(null);
@@ -57,13 +57,14 @@ const BoardPage = () => {
 
             {showModal && (
                 <CardModal
-                    onclose={() => setShowModal(false)}
+                    onClose={() => setShowModal(false)}
                     onAddCard={(data) => {
                         const cardWithBoard = {...data, boardId: id };
                         handleAddCard(cardWithBoard);
                         setShowModal(false);
                     }}
                     boardId={id}
+                    theme={theme}
                 />
             )}
         </div>

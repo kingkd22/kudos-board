@@ -1,7 +1,24 @@
+body.dark {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    --card-bg: #1e1e1e;
+    --button-bg: #333;
+    --button-hover: #555;
+}
+
+body.light {
+    --bg-color: #f7f7f7;
+    --text-color: #222;
+    --card-bg: #ffffff;
+    --button-bg: #e0e0e0;
+    --button-hover: #ccc;
+}
+
+
 .board-page {
     padding: 2rem;
-    background: #121212;
-    color: white;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     min-height: 100vh;
     text-align: center;
     min-width: 100vw;
@@ -10,6 +27,12 @@
 .board-page h2 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
+}
+
+.board-page p {
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .card-grid {
@@ -21,20 +44,55 @@
 }
 
 .card {
-    background: #1e1e1e;
+    background-color: var(--card-bg);
     padding: 1rem;
     border-radius: 12px;
-    width: 200px;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    width: 220px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
 }
 
 .card img {
     width: 100%;
     border-radius: 10px;
     margin-bottom: 0.5rem;
+    object-fit: cover;
+    max-height: 160px;
 }
 
 .card-author {
     font-size: 0.85rem;
-    color: #bbb
+    color: var(--text-color)
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+/* === Responsive Layout === */
+@media (max-width: 600px) {
+    .card-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
 }

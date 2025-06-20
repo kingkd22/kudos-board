@@ -1,0 +1,24 @@
+body.dark {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    --card-bg: #1e1e1e;
+    --button-bg: #333;
+    --button-hover: #555;
+}
+
+body.light {
+    --bg-color: #f7f7f7;
+    --text-color: #222;
+    --card-bg: #ffffff;
+    --button-bg: #e0e0e0;
+    --button-hover: #ccc;
+}
+
+.app-footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-top: 1px solid #444;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
