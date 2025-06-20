@@ -5,13 +5,15 @@ import "./Dashboard.css"
 import EditBoardModal from "./EditBoardModal";
 import NewBoardModal from "./NewBoardModal";
 import { toast } from "react-toastify";
+import SearchForm from "./SearchForm";
 
 
-const Dashboard = () => {
+const Dashboard = (theme) => {
     const [boards, setBoards] = useState([]);
     const [filterCategory, setFilterCategory] = useState('All')
     const [editingBoard, setEditingBoard] = useState(null)
     const [showModal, setShowModal] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("")
 
     // fetch boards from the backend
     useEffect(() => {
@@ -38,9 +40,11 @@ const Dashboard = () => {
     };
 
     //Filter boards by category if selected
-    const filteredBoards = filterCategory === 'All'
-        ? boards
-        : boards.filter((b) => b.category === filterCategory);
+    const filteredBoards = boards.filter((board)=> {
+        const matchesCategory = filterCategory ==="All" || board.category === filterCategory;
+        const matchesSearch = board.title.toLowerCase().includes(searchQuery);
+        return matchesCategory && matchesSearch
+    })
     
 
     //Handle edit save
@@ -62,20 +66,30 @@ const Dashboard = () => {
         }
     }
 
+    //handle search
+    const handleSearch = (query) => {
+        setSearchQuery((query.toLowerCase()))
+    }
+
     return (
+        <>
         <div className="dashboard-container">
             <div className="dashboard-header">
-                <h2 className="dashboard-Title"> Kudos Boards</h2>
+                <h2 className="dashboard-Title"> All Boards</h2>
                 <div className="dashboard-controls">
-                <div className="filter">
-                    <label htmlFor="category-select"> Filter by Category: </label>
-                    <select id="category-select" value={filterCategory} onChange={handleFilterChange}>
-                        <option value="All">All</option>
-                        <option value="Celebration">Celebration</option>
-                        <option value="Thank You">Thank You</option>
-                        <option value="Inspiration">Inspiration</option>
-                    </select>
-                    <button onClick={() => setShowModal(true)}>Create New Board</button>
+                    <div className="filter">
+                        <label htmlFor="category-select"> Filter by Category: </label>
+                        <select id="category-select" value={filterCategory} onChange={handleFilterChange}>
+                            <option value="All">All</option>
+                            <option value="Celebration">Celebration</option>
+                            <option value="Thank You">Thank You</option>
+                            <option value="Inspiration">Inspiration</option>
+                        </select>
+                    </div>
+                    <div className="search">
+                        <SearchForm onSearch={handleSearch} />
+                        <button onClick={() => setShowModal(true)}>Create New Board</button>
+                    </div>
                 </div>
             </div>
 
@@ -104,11 +118,13 @@ const Dashboard = () => {
             ) : ( <p className="no-results">No Boards Found</p>)}
             </div>
 
-            {editingBoard && (
+        </div>
+        {editingBoard && (
                 <EditBoardModal
                     board={editingBoard}
                     onClose={() => setEditingBoard(null)}
                     onSave={handleSaveEdit}
+                    theme={theme}
                 />
             )}
 
@@ -116,10 +132,10 @@ const Dashboard = () => {
                 <NewBoardModal 
                     onClose={() => setShowModal(false)}
                     onCreateBoard={handleAddBoard}
+                    theme={theme}
                 />
             )}
-        </div>
-    </div>
+        </>
     )
 }
 
