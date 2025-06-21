@@ -7,7 +7,10 @@ const API = axios.create({
 
 //Boards
 export const fetchBoards = () => API.get('/boards');
-export const createBoard = (data) => API.post('/boards', data);
+export const createBoard = async (data) => {
+    const res = await API.post('/boards', data);
+    return res;
+}
 export const deleteBoard = (id) => API.delete(`/boards/${id}`)
 export const updateBoard = (id, data) => API.put(`/boards/${id}`, data)
 

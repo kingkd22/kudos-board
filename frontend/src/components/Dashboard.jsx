@@ -14,22 +14,38 @@ const Dashboard = (theme) => {
     const [editingBoard, setEditingBoard] = useState(null)
     const [showModal, setShowModal] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
+    const [filteredBoards, setFilteredBoards] = useState([])
 
     // fetch boards from the backend
     useEffect(() => {
         fetchBoards().then((res) => setBoards(res.data));
     }, []);
 
+    useEffect(()=>{
+
+        console.log("Inside use effect to track board change")
+        console.log(boards)
+
+        const myBoards = boards.filter((board) => {
+            const matchesCategory =
+                filterCategory === "All" || board.category === filterCategory;
+            const matchesSearch =
+                board.title?.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
+        })
+        setFilteredBoards(myBoards)
+        
+    }, [boards, filterCategory, searchQuery])
+
     //deleting board
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this board?')) {
             try {
                 await deleteBoard(id);
-                setBoards((prev) => prev.filter((b) => b.id !== id));
+                window.location.reload()
             }
             catch (error) {
                 console.error('Failed to delete board')
-                toast.error('Failed to delete board')
             }
         }
     }
@@ -37,14 +53,9 @@ const Dashboard = (theme) => {
     //handle category filter change
     const handleFilterChange = (e) => {
         setFilterCategory(e.target.value)
+        console.log(e.target.value)
     };
 
-    //Filter boards by category if selected
-    const filteredBoards = boards.filter((board)=> {
-        const matchesCategory = filterCategory ==="All" || board.category === filterCategory;
-        const matchesSearch = board.title?.toLowerCase().includes(searchQuery);
-        return matchesCategory && matchesSearch
-    })
     
 
     //Handle edit save
@@ -59,7 +70,10 @@ const Dashboard = (theme) => {
     const handleAddBoard = async (newBoard) => {
         try {
             const savedBoard = await createBoard(newBoard);
-            setBoards((prev) => [...prev, savedBoard]);
+            const newBoards = [...boards, savedBoard]
+            setBoards(newBoards);
+            setShowModal(false)
+            window.location.reload()
         }   catch (error) {
             console.error('Error creating board', error)
             toast.error('Board could not be created')

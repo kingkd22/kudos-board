@@ -63,9 +63,14 @@ router.put('/:id', validateBoard, async (req, res) => {
 });
 
 //DELETE board
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', async(req, res, next) => {
     const { id } = req.params;
-    await prisma.board.delete({ where: {id: parseInt(id) } });
+    try {
+        await prisma.board.delete({ where: {id: parseInt(id) } });
+        res.status(204).end()
+    } catch (err) {
+        next(err)
+    }
 });
 
 module.exports = router;
