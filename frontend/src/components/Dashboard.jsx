@@ -29,8 +29,7 @@ const Dashboard = (theme) => {
         const myBoards = boards.filter((board) => {
             const matchesCategory =
                 filterCategory === "All" || board.category === filterCategory;
-            const matchesSearch =
-                board.title?.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesSearch = board.title?.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         })
         setFilteredBoards(myBoards)
@@ -95,9 +94,9 @@ const Dashboard = (theme) => {
                         <label htmlFor="category-select"> Filter by Category: </label>
                         <select id="category-select" value={filterCategory} onChange={handleFilterChange}>
                             <option value="All">All</option>
-                            <option value="Celebration">Celebration</option>
-                            <option value="Thank You">Thank You</option>
-                            <option value="Inspiration">Inspiration</option>
+                            <option value="celebration">Celebration</option>
+                            <option value="thank you">Thank You</option>
+                            <option value="inspiration">Inspiration</option>
                         </select>
                     </div>
                     <div className="search">
